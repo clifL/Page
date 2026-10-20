@@ -1,0 +1,424 @@
+/* ---------- Page ---------- */
+
+.page {
+  min-height: 100dvh;
+  padding: calc(var(--header-h) + var(--safe-top) + 1.25rem) max(4%, env(safe-area-inset-right))
+    calc(2rem + var(--safe-bottom)) max(4%, env(safe-area-inset-left));
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.error {
+  margin: 0;
+  color: var(--danger);
+}
+
+/* ---------- Buttons ---------- */
+
+.primary,
+.secondary,
+.clear {
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.primary {
+  padding: 0.55rem 1.3rem;
+  border: 1px solid var(--highlight);
+  background: var(--highlight);
+  color: #111;
+}
+
+.primary:hover {
+  background: #ffd84d;
+}
+
+.secondary {
+  padding: 0.55rem 1.3rem;
+  border: 1px solid var(--border);
+  background: transparent;
+}
+
+.primary:disabled,
+.secondary:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.clear {
+  padding: 0.4rem 0.9rem;
+  border: 0;
+  background: none;
+  color: var(--highlight);
+}
+
+/* ---------- Filters ---------- */
+
+.filters {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.inline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.inline select,
+.inline input,
+.field input {
+  min-height: 40px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.chips {
+  display: flex;
+  gap: 0.5rem;
+  /* Scroll sideways on narrow screens rather than wrapping into many rows */
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: thin;
+}
+
+.chip {
+  flex-shrink: 0;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.chip[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #062;
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .inline {
+    flex: 1 1 40%;
+  }
+
+  .inline select,
+  .inline input {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* ---------- Grid ---------- */
+
+.groups {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.groupLabel {
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/*
+ * auto-fill picks the column count from the available width:
+ * ~3 columns on a 360–430px phone, 4–5 on tablets, 6+ on desktop.
+ */
+.grid {
+  --tile-min: 110px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--tile-min), 1fr));
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 600px) {
+  .grid { --tile-min: 150px; gap: 4px; }
+}
+
+@media (min-width: 1100px) {
+  .grid { --tile-min: 190px; }
+}
+
+.tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: var(--surface-2);
+  cursor: zoom-in;
+}
+
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.tileTitle {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1.2rem 0.5rem 0.4rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  font-size: 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+@media (hover: hover) {
+  .tile:hover img { transform: scale(1.04); }
+  .tile:hover .tileTitle,
+  .tile:focus-visible .tileTitle { opacity: 1; }
+}
+
+/* ---------- Upload dialog ---------- */
+
+.dialog {
+  width: min(520px, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.form h2 {
+  margin: 0;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field > span {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.field small {
+  color: var(--text-muted);
+}
+
+.previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 4px;
+  max-height: 160px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.previews img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 4px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Mobile: the upload dialog becomes a bottom sheet */
+@media (max-width: 560px) {
+  .dialog {
+    width: 100%;
+    max-width: 100%;
+    margin: auto 0 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding-bottom: var(--safe-bottom);
+  }
+}
+
+/* ---------- Lightbox ---------- */
+
+.lightbox {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: var(--text);
+  overflow: hidden;
+}
+
+.lightbox[open] {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.lightbox::backdrop {
+  background: #000;
+}
+
+.lightboxBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(0.5rem + var(--safe-top)) 1rem 0.5rem;
+}
+
+.counter {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.lightboxActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lightboxActions button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.lightboxActions button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.stage {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+/* contain: the whole photo is visible whatever its orientation or the screen's */
+.full {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease-out;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.full[data-dragging] {
+  transition: none;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.navPrev { left: 1rem; }
+.navNext { right: 1rem; }
+
+@media (hover: none) {
+  .nav { display: none; }
+}
+
+.caption {
+  padding: 0.75rem 1rem calc(1rem + var(--safe-bottom));
+}
+
+.caption h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+}
+
+.caption p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.captionTags {
+  margin-top: 0.3rem !important;
+  color: var(--accent) !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .full { animation: none; transition: none; }
+  .tile img { transition: none; }
+}

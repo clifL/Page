@@ -1,67 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="navbar.css">
-  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Open+Sans&display=swap" rel="stylesheet">
-  <title>Navbar</title>
-
- 
-
+  <title>Clif.L</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<header>
-    <h1><a href="https://clifl.github.io/Blog/">C l i f <span>. L</span></h1>
-    <nav>
-        <div class ="wrapper">
-            <ul>
-                <li><a href="https://clifl.github.io/Blog/">Home</a></li>
-                <li><a href="https://gamejolt.com/games/go-ezoo/174179">Portfolios</a></li>
-                <li><a href="https://www.linkedin.com/in/clif">Linkedin</a></li>
-                <li><a href="#">Labs</a>
-                    <ul>
-                        <li><a href="https://github.com/csc2005/csc2005-lab01-2020">Lab 01</a></li>
-                        <li><a href="https://clifl.github.io/csc2005-lab02-2020/">Lab 02</a></li>
-                        <li><a href="https://clifl.github.io/csc2005-lab03-2020/">Lab 03</a></li>
-                        <li><a href="https://clifl.github.io/csc2005-lab04-2020/">Lab 04</a></li>
-                        <li><a href="https://clifl.github.io/csc2005-lab05-2020/">Lab 05</a></li>
-                        <li><a href="https://clifl.github.io/csc2005-lab06-2020/">Lab 06</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>  
-    </nav>
-</header>
 
 <body>
-  <div id="bg" class="test"></div>
-  <div class="fg">
-    <h3 style="text-align:center;background-color:#fff9f8;color: #000000">Home Page...</h3>
-  </div>
+  <header class="site-header">
+    <a class="logo" href="https://clifl.github.io/Blog/">Clif<span>.L</span></a>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="https://gamejolt.com/games/go-ezoo/174179">Portfolio</a></li>
+        <li><a href="https://www.linkedin.com/in/clif">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <script type='text/javascript'>
-    var imageID=0;
-    function changeImage(every_seconds){
-      //change the image
-      let bg = document.getElementById('bg');
-      if(!imageID){
-        bg.style.backgroundImage = "url(starsky.jpg)";
-        
-        imageID++;
-      }
-      else{if(imageID==1){
-        bg.style.backgroundImage = "url(travel.jpg)";
-        imageID++;
-      }else{if(imageID==2){
-        bg.style.backgroundImage = "url(night.jpg)";
-        imageID=0;
-      }}}
-      //call same function again for x of seconds
-      setTimeout("changeImage("+every_seconds+")",((every_seconds)*1000));
-    }
-    changeImage(15);
-    </script>
+  <main class="carousel" aria-roledescription="carousel">
+    <div class="slide" style="background-image: url(assets/images/starsky.jpg)"></div>
+    <div class="slide" style="background-image: url(assets/images/travel.jpg)"></div>
+    <div class="slide" style="background-image: url(assets/images/night.jpg)"></div>
+    <div class="slide" style="background-image: url(assets/images/sea.jpg)"></div>
+    <div class="slide" style="background-image: url(assets/images/blackout.jpg)"></div>
+
+    <button class="carousel-btn prev" aria-label="Previous photo">&#10094;</button>
+    <button class="carousel-btn next" aria-label="Next photo">&#10095;</button>
+    <div class="carousel-dots"></div>
+  </main>
+
+  <script src="js/carousel.js"></script>
 </body>
 
 </html>

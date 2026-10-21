@@ -2,12 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { DEFAULT_FILTERS, collectTags, filterPhotos, groupByMonth, parseTags } from './filterPhotos';
 import type { Photo } from './types';
 
-const photo = (id: string, takenAt: string, tags: string[], title = id): Photo => ({
+// Midday UTC keeps the local calendar date the same in every time zone from UTC-11 to UTC+11.
+const photo = (id: string, day: string, tags: string[], title = id): Photo => ({
   id,
   title,
+  description: '',
   tags,
-  takenAt,
-  uploadedAt: `${takenAt}T00:00:00Z`,
+  sizeMb: 1,
+  width: 1800,
+  height: 1200,
+  uploadedAt: `${day}T12:00:00.000Z`,
+  takenAt: day,
   src: '',
 });
 
@@ -56,11 +61,34 @@ describe('filterPhotos', () => {
 
 describe('groupByMonth', () => {
   it('groups consecutive photos by month', () => {
-    const groups = groupByMonth(filterPhotos(photos, DEFAULT_FILTERS), 'newest');
+    const groups = groupByMonth(filterPhotos(photos, DEFAULT_FILTERS), DEFAULT_FILTERS);
     expect(groups.map((g) => g.photos.length)).toEqual([1, 1, 1]);
   });
 
   it('uses a single group for title sort', () => {
-    expect(groupByMonth(photos, 'title')).toHaveLength(1);
+    expect(groupByMonth(photos, { ...DEFAULT_FILTERS, sort: 'title' })).toHaveLength(1);
+  });
+});
+
+describe('date field', () => {
+  // Taken long before it was uploaded.
+  const old = { ...photo('old', '2026-06-01', []), takenAt: '2019-08-15' };
+  const recent = photo('recent', '2026-05-01', []);
+
+  it('filters and sorts by date taken by default', () => {
+    expect(filterPhotos([old, recent], DEFAULT_FILTERS).map((p) => p.id)).toEqual(['recent', 'old']);
+    const in2019 = filterPhotos([old, recent], { ...DEFAULT_FILTERS, from: '2019-01-01', to: '2019-12-31' });
+    expect(in2019.map((p) => p.id)).toEqual(['old']);
+  });
+
+  it('can filter and sort by upload date instead', () => {
+    const byUpload = { ...DEFAULT_FILTERS, dateField: 'uploaded' as const };
+    expect(filterPhotos([old, recent], byUpload).map((p) => p.id)).toEqual(['old', 'recent']);
+    expect(filterPhotos([old, recent], { ...byUpload, from: '2019-01-01', to: '2019-12-31' })).toHaveLength(0);
+  });
+
+  it('groups by the month of the chosen date', () => {
+    const labels = groupByMonth(filterPhotos([old], DEFAULT_FILTERS), DEFAULT_FILTERS).map((g) => g.label);
+    expect(labels[0]).toMatch(/2019/);
   });
 });

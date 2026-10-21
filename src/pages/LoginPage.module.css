@@ -1,0 +1,72 @@
+.page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: calc(var(--header-h) + var(--safe-top) + 1rem) 1rem calc(1rem + var(--safe-bottom));
+}
+
+.card {
+  width: min(380px, 100%);
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.card h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.hint {
+  margin: -0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.field input {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  /* 16px stops iOS Safari zooming in on focus */
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+.submit {
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--highlight);
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.back {
+  justify-self: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

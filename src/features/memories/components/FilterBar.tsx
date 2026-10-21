@@ -1,5 +1,5 @@
 import { DEFAULT_FILTERS } from '../filterPhotos';
-import type { PhotoFilters, SortOrder } from '../types';
+import type { DateField, PhotoFilters, SortOrder } from '../types';
 import styles from './Memories.module.css';
 
 interface FilterBarProps {
@@ -34,6 +34,13 @@ export default function FilterBar({ tags, filters, onChange }: FilterBarProps) {
           </select>
         </label>
         <label className={styles.inline}>
+          <span>Date</span>
+          <select value={filters.dateField} onChange={(e) => update({ dateField: e.target.value as DateField })}>
+            <option value="taken">Taken</option>
+            <option value="uploaded">Uploaded</option>
+          </select>
+        </label>
+        <label className={styles.inline}>
           <span>From</span>
           <input type="date" value={filters.from} max={filters.to || undefined} onChange={(e) => update({ from: e.target.value })} />
         </label>
@@ -42,7 +49,7 @@ export default function FilterBar({ tags, filters, onChange }: FilterBarProps) {
           <input type="date" value={filters.to} min={filters.from || undefined} onChange={(e) => update({ to: e.target.value })} />
         </label>
         {isFiltered && (
-          <button type="button" className={styles.clear} onClick={() => onChange({ ...DEFAULT_FILTERS, sort: filters.sort })}>
+          <button type="button" className={styles.clear} onClick={() => onChange({ ...DEFAULT_FILTERS, sort: filters.sort, dateField: filters.dateField })}>
             Clear filters
           </button>
         )}

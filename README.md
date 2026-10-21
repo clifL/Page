@@ -42,19 +42,25 @@ public/                  static files copied as-is (images, CNAME, Learning/)
 src/
   components/            Header, Carousel
   hooks/useSwipe.ts      touch/mouse drag-to-swipe, shared by Carousel and Lightbox
-  pages/                 Home, Memories, 404
+  pages/                 Home, Memories, Login, 404
   features/memories/
-    components/          PhotoGrid, Lightbox, UploadDialog, FilterBar
-    storage/             PhotoRepository interface + IndexedDB and R2 implementations
+    components/          PhotoGrid, Lightbox, UploadDialog, EditDialog, FilterBar, OwnerBar
+    photoApi.ts          calls to the page-backend API
     filterPhotos.ts      filter, sort and month grouping (unit tested)
+  features/auth/         login state (AuthProvider, useAuth)
+  lib/api.ts             fetch wrapper: base URL, auth token, errors
 ```
 
-## Memories storage
+## Memories backend
 
-Photos go through the `PhotoRepository` interface in `src/features/memories/storage/`.
+Memories is served by the **page-backend** Cloudflare Worker (Hono + D1 + R2), in the sibling
+`page-backend` folder. It handles uploads, compression for 4R printing, private photos, owner login,
+the guest-upload switch and the monthly upload limits.
 
-- **Default: browser storage (IndexedDB).** Photos stay in that browser only. Other visitors and
-  other devices don't see them, and clearing site data deletes them.
-- **Cloudflare R2.** Set `VITE_PHOTO_API_URL` (see `.env.example`) to a Cloudflare Worker that fronts the
-  bucket. `R2PhotoRepository.ts` documents the endpoints it expects. R2 credentials and upload
-  authentication belong in the Worker, never in this frontend.
+- **Locally:** run the backend (`npm run dev` in `page-backend`), then copy `.env.example` to
+  `.env.local` here. It points at `http://localhost:8787`.
+- **Production:** set the repository variable `PHOTO_API_URL` (Settings → Secrets and variables →
+  Actions → Variables) to the deployed Worker URL. The deploy workflow passes it into the build.
+  Without it, the Memories page says it isn't connected.
+
+Owner login is at `/login`, linked from the bottom of the Memories page.

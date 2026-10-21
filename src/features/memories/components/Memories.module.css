@@ -14,7 +14,7 @@
   margin-bottom: 1rem;
 }
 
-.heading h1 {
+.title {
   margin: 0;
   font-size: clamp(1.4rem, 4vw, 2rem);
   letter-spacing: 2px;
@@ -98,7 +98,8 @@
 
 .inline select,
 .inline input,
-.field input {
+.field input,
+.field textarea {
   min-height: 40px;
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--border);
@@ -421,4 +422,285 @@
 @media (prefers-reduced-motion: reduce) {
   .full { animation: none; transition: none; }
   .tile img { transition: none; }
+}
+
+/* ---------- Form extras ---------- */
+
+.field textarea {
+  min-height: 0;
+  resize: vertical;
+}
+
+/* 16px stops iOS Safari zooming in when a field is focused */
+@media (max-width: 560px) {
+  .field input,
+  .field textarea,
+  .inline select,
+  .inline input {
+    font-size: 16px;
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 20px;
+  height: 20px;
+  margin: 0.1rem 0 0;
+  accent-color: var(--accent);
+}
+
+.checkbox small {
+  display: block;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.preLine {
+  white-space: pre-line;
+}
+
+ul.error {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+}
+
+.progress {
+  margin-right: auto;
+  align-self: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.editPreview {
+  width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #000;
+}
+
+.danger {
+  padding: 0.55rem 1.3rem;
+  border: 1px solid var(--danger);
+  border-radius: 999px;
+  background: var(--danger);
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.danger:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Owner controls ---------- */
+
+.ownerBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.25rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+.signedIn {
+  color: var(--text-muted);
+}
+
+.signedIn strong {
+  color: var(--text);
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* Pill-shaped toggle built on a native checkbox, so it stays keyboard- and screen-reader-friendly */
+.switch input {
+  appearance: none;
+  position: relative;
+  width: 40px;
+  height: 22px;
+  margin: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.switch input::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.switch input:checked {
+  background: var(--accent);
+}
+
+.switch input:checked::after {
+  transform: translateX(18px);
+}
+
+.switch input:disabled {
+  opacity: 0.5;
+}
+
+.usage {
+  color: var(--text-muted);
+}
+
+.ownerActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.ownerActions .secondary {
+  padding: 0.4rem 1rem;
+}
+
+.ownerActions .secondary[aria-pressed='true'] {
+  border-color: var(--highlight);
+  color: var(--highlight);
+}
+
+@media (max-width: 560px) {
+  .ownerActions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .ownerActions .secondary {
+    flex: 1;
+  }
+}
+
+.selectionBar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem max(4%, 1rem) calc(0.75rem + var(--safe-bottom));
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.selectionBar span {
+  margin-right: auto;
+  font-weight: 600;
+}
+
+.footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.footer a {
+  color: var(--text-muted);
+}
+
+.footer a:hover {
+  color: var(--highlight);
+}
+
+/* ---------- Tile badges and selection ---------- */
+
+.badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 5px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+.tile[data-selecting] {
+  cursor: pointer;
+}
+
+.check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.tile[aria-pressed='true'] img {
+  transform: scale(0.88);
+  border-radius: 6px;
+}
+
+.tile[aria-pressed='true'] .check {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.tile[aria-pressed='true'] .check::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 11px;
+  border: solid #062;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Leave room for the selection toolbar */
+.page:has(.selectionBar) {
+  padding-bottom: calc(5rem + var(--safe-bottom));
+}
+
+/* ---------- Lightbox extras ---------- */
+
+.privatePill {
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 0.7rem;
+  font-weight: 600;
+  vertical-align: middle;
+  color: var(--text-muted);
+}
+
+.caption .description {
+  margin-bottom: 0.3rem;
+  color: var(--text);
+  white-space: pre-line;
 }
